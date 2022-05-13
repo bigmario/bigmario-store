@@ -6,23 +6,35 @@ export class AppService {
     return 'Hello Mario!';
   }
 
-  newEndpoint(): string {
-    return 'Soy nuevo';
+  newEndpoint(): any {
+    return {
+      message: 'Soy nuevo',
+    };
   }
 
-  getProduct(productId: number): string {
-    return `se busca el producto con ID ${productId}`;
+  getProduct(productId: number) {
+    return {
+      message: `producto con ID ${productId} encontrado`,
+    };
   }
 
-  getProducts(limit: number, offset: number, brand: string): string {
-    return `Se listan todos los productos de la marca ${brand}, con LIMIT => ${limit} y OFFSET => ${offset}`;
+  getProducts(limit: number, offset: number, brand: string) {
+    return {
+      marca: brand,
+      limit: limit,
+      offset: offset,
+    };
   }
 
   showCategory(id: string, productId: string) {
-    return `product ${productId} and ${id}`;
+    return {
+      message: `product ${productId} and ${id}`,
+    };
   }
 
   productFilter() {
-    return 'Algo';
+    return {
+      message: 'Algo',
+    };
   }
 }
