@@ -1,10 +1,13 @@
-import { Controller, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Category } from '../entities/category.entity';
-import { CreateCategoryDto, UpdateCategoryDto } from 'src/dtos/category.dto';
+import { Category } from 'src/products/entities/category.entity';
+import {
+  CreateCategoryDto,
+  UpdateCategoryDto,
+} from 'src/products/dto/category.dto';
 
-@Controller('customers')
-export class CustomersController {
+@Injectable()
+export class CategoriesService {
   private counterId = 1;
   private categories: Category[] = [
     {
