@@ -1,10 +1,11 @@
-import { Module, HttpModule, HttpService } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import * as Joi from 'joi';
 
 import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
+import { CustomersModule } from './customers/customers.module';
 import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroment';
@@ -15,7 +16,7 @@ import config from './config';
   imports: [
     UsersModule,
     ProductsModule,
-    HttpModule,
+    CustomersModule,
     DatabaseModule,
     ConfigModule.forRoot({
       envFilePath: enviroments[process.env.NODE_ENV] || '.env',
@@ -27,20 +28,9 @@ import config from './config';
         DATABASE_PORT: Joi.number().required(),
       }),
     }),
+    CustomersModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: 'TASKS',
-      useFactory: async (http: HttpService) => {
-        const tasks = await http
-          .get('https://rickandmortyapi.com/api/character')
-          .toPromise();
-        return tasks.data;
-      },
-      inject: [HttpService],
-    },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

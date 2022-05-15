@@ -16,6 +16,9 @@ import { Product } from 'src/products/entities/product.entity';
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
 import { CreateProductDto } from 'src/products/dto/products.dto';
 
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly pService: ProductsService) {}
