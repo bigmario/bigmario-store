@@ -14,7 +14,10 @@ import {
 import { ProductsService } from 'src/products/services/products.service';
 import { Product } from 'src/products/entities/product.entity';
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
-import { CreateProductDto } from 'src/products/dto/products.dto';
+import {
+  CreateProductDto,
+  UpdateProductDto,
+} from 'src/products/dto/products.dto';
 
 import { ApiTags } from '@nestjs/swagger';
 
@@ -58,7 +61,7 @@ export class ProductsController {
   @Put(':productId')
   update(
     @Param('productId', ParseIntPipe) productId: number,
-    @Body() payload: Product,
+    @Body() payload: UpdateProductDto,
   ) {
     return this.pService.updateProduct(productId, payload);
   }
