@@ -10,7 +10,6 @@ import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroment';
 
 import config from './config';
-import { join } from 'path';
 
 @Module({
   imports: [
