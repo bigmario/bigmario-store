@@ -15,12 +15,8 @@ export class ProductsService {
     },
   ];
 
-  getAllProducts(limit: number, offset: number) {
-    return {
-      payload: this.products,
-      limit: limit,
-      offset: offset,
-    };
+  getAllProducts() {
+    return this.products;
   }
 
   getOneProduct(productId: number) {

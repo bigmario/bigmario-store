@@ -3,7 +3,6 @@ import {
   Get,
   Param,
   Post,
-  Query,
   Body,
   Put,
   Delete,
@@ -38,8 +37,8 @@ export class ProductsController {
   }
 
   @Get()
-  getAllProducts(@Query('limit') limit = 100, @Query('offset') offset = 0) {
-    return this.pService.getAllProducts(limit, offset);
+  getAllProducts() {
+    return this.pService.getAllProducts();
   }
 
   @Get(':productId')
