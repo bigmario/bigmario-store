@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+#MONGO Database
+/mongo_data
+
 # Logs
 logs
 *.log
