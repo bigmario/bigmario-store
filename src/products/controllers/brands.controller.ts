@@ -24,25 +24,25 @@ export class BrandsController {
   }
 
   @Get(':id')
-  getOneBrand(@Param('id', ParseIntPipe) id: number) {
+  getOneBrand(@Param('id') id: string) {
     return this.brandsService.getOneBrand(id);
   }
 
-  @Post()
-  createBrand(@Body() payload: CreateBrandDto) {
-    return this.brandsService.createBrand(payload);
-  }
+  // @Post()
+  // createBrand(@Body() payload: CreateBrandDto) {
+  //   return this.brandsService.createBrand(payload);
+  // }
 
-  @Put(':id')
-  updateBrand(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateBrandDto,
-  ) {
-    return this.brandsService.updateBrand(id, payload);
-  }
+  // @Put(':id')
+  // updateBrand(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body() payload: UpdateBrandDto,
+  // ) {
+  //   return this.brandsService.updateBrand(id, payload);
+  // }
 
-  @Delete(':id')
-  removeBrand(@Param('id', ParseIntPipe) id: number) {
-    return this.brandsService.removeBrand(id);
-  }
+  // @Delete(':id')
+  // removeBrand(@Param('id', ParseIntPipe) id: number) {
+  //   return this.brandsService.removeBrand(id);
+  // }
 }

@@ -66,12 +66,12 @@ export class CustomersService {
     return true;
   }
 
-  getOrderByCustomer(id: number): Order {
+  async getOrderByCustomer(id: number) {
     const customer = this.findOne(id);
     return {
       date: new Date(),
       customer: customer,
-      products: this.productsService.getAllProducts(),
+      products: await this.productsService.getAllProducts(),
     };
   }
 }
