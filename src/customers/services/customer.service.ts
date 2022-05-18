@@ -50,7 +50,7 @@ export class CustomersService {
     if (!customer) {
       throw new NotFoundException(`Customer #${id} not found`);
     }
-    return true;
+    return customer;
   }
 
   // async getOrderByCustomer(id: number) {
