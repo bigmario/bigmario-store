@@ -9,6 +9,7 @@ import { CustomersModule } from './customers/customers.module';
 import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroment';
+import { OrdersModule } from './orders/orders.module';
 
 import config from './config';
 
@@ -18,6 +19,7 @@ import config from './config';
     ProductsModule,
     CustomersModule,
     DatabaseModule,
+    OrdersModule,
     ConfigModule.forRoot({
       envFilePath: enviroments[process.env.NODE_ENV] || '.env',
       load: [config],
@@ -28,7 +30,6 @@ import config from './config';
         DATABASE_PORT: Joi.number().required(),
       }),
     }),
-    CustomersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

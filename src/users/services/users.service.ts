@@ -3,32 +3,24 @@ import { ConfigService } from '@nestjs/config';
 import { User } from 'src/users/entities/user.entity';
 
 import { CreateUserDto, UpdateUserDto } from 'src/users/dto/user.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Product } from 'src/products/entities/product.entity';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  constructor(private configService: ConfigService) {}
-
-  private counterId = 1;
-  private users: User[] = [
-    {
-      id: 1,
-      email: 'correo@mail.com',
-      password: '12345',
-      role: 'admin',
-    },
-  ];
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(Product.name) private productModel: Model<Product>,
+    private configService: ConfigService,
+  ) {}
 
   findAll() {
-    const apiKey = this.configService.get('API_KEY');
-    const dbName = this.configService.get('DATABASE_NAME');
-
-    console.log(apiKey);
-    console.log(dbName);
-    return this.users;
+    return this.userModel.find();
   }
 
-  findOne(id: number) {
-    const user = this.users.find((item) => item.id === id);
+  findOne(id: string) {
+    const user = this.userModel.findById(id).exec();
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
@@ -36,31 +28,27 @@ export class UsersService {
   }
 
   create(data: CreateUserDto) {
-    this.counterId = this.counterId + 1;
-    const newUser = {
-      id: this.counterId,
-      ...data,
-    };
-    this.users.push(newUser);
-    return newUser;
+    const newUser = new this.userModel(data);
+    return newUser.save();
   }
 
-  update(id: number, changes: UpdateUserDto) {
-    const user = this.findOne(id);
-    const index = this.users.findIndex((item) => item.id === id);
-    this.users[index] = {
-      ...user,
-      ...changes,
-    };
-    return this.users[index];
-  }
-
-  remove(id: number) {
-    const index = this.users.findIndex((item) => item.id === id);
-    if (index === -1) {
+  update(id: string, changes: UpdateUserDto) {
+    const user = this.userModel.findByIdAndUpdate(
+      id,
+      { $set: changes },
+      { new: true },
+    );
+    if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
-    this.users.splice(index, 1);
-    return true;
+    return user;
+  }
+
+  remove(id: string) {
+    const user = this.userModel.findByIdAndDelete(id);
+    if (!user) {
+      throw new NotFoundException(`User #${id} not found`);
+    }
+    return user;
   }
 }
