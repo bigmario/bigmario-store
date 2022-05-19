@@ -23,11 +23,6 @@ import { ApiTags } from '@nestjs/swagger';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
-  }
-
   @Get()
   findAll() {
     return this.ordersService.findAll();
@@ -36,6 +31,11 @@ export class OrdersController {
   @Get(':id')
   findOne(@Param('id', MongoIdPipe) id: string) {
     return this.ordersService.findOne(id);
+  }
+
+  @Post()
+  create(@Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.create(createOrderDto);
   }
 
   @Patch(':id')
