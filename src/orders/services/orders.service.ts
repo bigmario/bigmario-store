@@ -14,10 +14,14 @@ export class OrdersService {
   }
 
   findAll() {
-    return this.orderModel.find();
+    return this.orderModel
+      .find()
+      .populate('customer')
+      .populate('products')
+      .exec();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     const order = this.orderModel.findById(id);
     if (!order) {
       throw new NotFoundException(`Order ID #${id} not found`);
@@ -25,7 +29,7 @@ export class OrdersService {
     return order;
   }
 
-  update(id: number, changes: UpdateOrderDto) {
+  update(id: string, changes: UpdateOrderDto) {
     const order = this.orderModel
       .findByIdAndUpdate(id, { $set: changes }, { new: true })
       .exec();
@@ -35,11 +39,23 @@ export class OrdersService {
     return order;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     const order = this.orderModel.findByIdAndDelete(id).exec();
     if (!order) {
       throw new NotFoundException(`Order ID #${id} not found`);
     }
     return order;
+  }
+
+  async removeProduct(id: string, productId: string) {
+    const order = await this.orderModel.findById(id);
+    order.products.pull(productId);
+    return order.save();
+  }
+
+  async addProducts(id: string, productsIds: string[]) {
+    const order = await this.orderModel.findById(id);
+    productsIds.forEach((idProduct) => order.products.push(idProduct));
+    return order.save();
   }
 }
