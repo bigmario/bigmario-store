@@ -22,7 +22,10 @@ export class OrdersService {
   }
 
   findOne(id: string) {
-    const order = this.orderModel.findById(id);
+    const order = this.orderModel
+      .findById(id)
+      .populate('customer')
+      .populate('products');
     if (!order) {
       throw new NotFoundException(`Order ID #${id} not found`);
     }
