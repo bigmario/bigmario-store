@@ -8,11 +8,6 @@ import { Model } from 'mongoose';
 export class OrdersService {
   constructor(@InjectModel(Order.name) private orderModel: Model<Order>) {}
 
-  create(data: CreateOrderDto) {
-    const newOrder = new this.orderModel(data);
-    return newOrder.save();
-  }
-
   findAll() {
     return this.orderModel
       .find()
@@ -30,6 +25,11 @@ export class OrdersService {
       throw new NotFoundException(`Order ID #${id} not found`);
     }
     return order;
+  }
+
+  create(data: CreateOrderDto) {
+    const newOrder = new this.orderModel(data);
+    return newOrder.save();
   }
 
   update(id: string, changes: UpdateOrderDto) {
