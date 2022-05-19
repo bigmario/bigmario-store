@@ -12,7 +12,7 @@ export class AppService {
 
   Hello(): string {
     const apiKey = this.configService.apiKey;
-    const dbName = this.configService.database.name;
+    const dbName = this.configService.mongo.dbName;
     return `Hello Mario! with token: ${apiKey} and DB: ${dbName}`;
   }
 
