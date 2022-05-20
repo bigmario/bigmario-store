@@ -2,6 +2,7 @@ import { NotFoundException, Injectable } from '@nestjs/common';
 import { Product } from 'src/products/entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateProductDto, UpdateProductDto } from '../dto/products.dto';
 
 @Injectable()
 export class ProductsService {
@@ -13,8 +14,8 @@ export class ProductsService {
     return this.productRepo.find();
   }
 
-  getOneProduct(productId: number) {
-    const product = this.productRepo.findOne(productId);
+  async getOneProduct(productId: number) {
+    const product = await this.productRepo.findOne(productId);
 
     if (!product) {
       throw new NotFoundException(`Product with ID# ${productId} not found`);
@@ -23,27 +24,35 @@ export class ProductsService {
     return product;
   }
 
-  // createProduct(payload: CreateProductDto) {
-  //   const newProduct = new this.productModel(payload);
-  //   return newProduct.save();
-  // }
+  createProduct(payload: CreateProductDto) {
+    // const newProduct = new Product();
+    // newProduct.name = payload.name;
+    // newProduct.description = payload.description;
+    // newProduct.price = payload.price;
+    // newProduct.stock = payload.stock;
+    // newProduct.image = payload.image;
+    const newProduct = this.productRepo.create(payload);
+    return this.productRepo.save(newProduct);
+  }
 
-  // updateProduct(id: string, payload: UpdateProductDto) {
-  //   const product = this.productModel
-  //     .findByIdAndUpdate(id, { $set: payload }, { new: true })
-  //     .exec();
-  //   if (!product) {
-  //     throw new NotFoundException(`Product with ID# ${id} not found`);
-  //   }
-  //   return product;
-  // }
+  async updateProduct(id: number, payload: UpdateProductDto) {
+    const product = await this.productRepo.findOne(id);
 
-  // deleteProduct(id: string) {
-  //   const product = this.productModel.findByIdAndDelete(id);
+    if (!product) {
+      throw new NotFoundException(`Product with ID# ${id} not found`);
+    }
 
-  //   if (!product) {
-  //     throw new NotFoundException(`Product with ID# ${id} not found`);
-  //   }
-  //   return product;
-  // }
+    this.productRepo.merge(product, payload);
+    return this.productRepo.save(product);
+  }
+
+  async deleteProduct(id: number) {
+    const product = await this.getOneProduct(id);
+
+    if (!product) {
+      throw new NotFoundException(`Product with ID# ${id} not found`);
+    }
+
+    return this.productRepo.delete(id);
+  }
 }
