@@ -11,9 +11,4 @@ export class AppController {
   Hello(): string {
     return this.appService.Hello();
   }
-
-  @Get('tasks')
-  getTasks() {
-    return this.appService.getTasks();
-  }
 }

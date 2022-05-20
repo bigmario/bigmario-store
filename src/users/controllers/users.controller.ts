@@ -29,18 +29,18 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  @Post()
-  create(@Body() payload: CreateUserDto) {
-    return this.usersService.create(payload);
-  }
+  // @Post()
+  // create(@Body() payload: CreateUserDto) {
+  //   return this.usersService.create(payload);
+  // }
 
-  @Put(':id')
-  update(@Param('id', MongoIdPipe) id: string, @Body() payload: UpdateUserDto) {
-    return this.usersService.update(id, payload);
-  }
+  // @Put(':id')
+  // update(@Param('id', MongoIdPipe) id: string, @Body() payload: UpdateUserDto) {
+  //   return this.usersService.update(id, payload);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id', MongoIdPipe) id: string) {
-    return this.usersService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id', MongoIdPipe) id: string) {
+  //   return this.usersService.remove(id);
+  // }
 }

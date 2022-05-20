@@ -1,64 +1,60 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Customer } from 'src/customers/entities/customer.entity';
-import {
-  CreateCustomerDto,
-  UpdateCustomerDto,
-} from 'src/customers/dto/customer.dto';
 import { ProductsService } from 'src/products/services/products.service';
 import { ConfigService } from '@nestjs/config';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CustomersService {
   constructor(
-    @InjectModel(Customer.name) private customerModel: Model<Customer>,
+    @InjectRepository(Customer) private customerRepo: Repository<Customer>,
     private productsService: ProductsService,
     private configService: ConfigService,
   ) {}
 
   findAll() {
-    return this.customerModel.find().exec();
+    return this.customerRepo.find();
   }
 
-  findOne(id: string) {
-    const customer = this.customerModel.findById(id);
+  findOne(id: number) {
+    const customer = this.customerRepo.findOne(id);
     if (!customer) {
       throw new NotFoundException(`Customer #${id} not found`);
     }
     return customer;
   }
 
-  create(data: CreateCustomerDto) {
-    const newCustomer = new this.customerModel(data);
-    return newCustomer.save();
-  }
-
-  update(id: string, changes: UpdateCustomerDto) {
-    const customer = this.customerModel
-      .findByIdAndUpdate(id, { $set: changes }, { new: true })
-      .exec();
-    if (!customer) {
-      throw new NotFoundException(`Customer #${id} not found`);
-    }
-    return customer;
-  }
-
-  remove(id: string) {
-    const customer = this.customerModel.findByIdAndDelete(id);
-    if (!customer) {
-      throw new NotFoundException(`Customer #${id} not found`);
-    }
-    return customer;
-  }
-
-  // async getOrderByCustomer(id: number) {
-  //   const customer = this.findOne(id);
-  //   return {
-  //     date: new Date(),
-  //     customer: customer,
-  //     products: await this.productsService.getAllProducts(),
-  //   };
+  // create(data: CreateCustomerDto) {
+  //   const newCustomer = new this.customerModel(data);
+  //   return newCustomer.save();
   // }
+
+  // update(id: string, changes: UpdateCustomerDto) {
+  //   const customer = this.customerModel
+  //     .findByIdAndUpdate(id, { $set: changes }, { new: true })
+  //     .exec();
+  //   if (!customer) {
+  //     throw new NotFoundException(`Customer #${id} not found`);
+  //   }
+  //   return customer;
+  // }
+
+  // remove(id: string) {
+  //   const customer = this.customerModel.findByIdAndDelete(id);
+  //   if (!customer) {
+  //     throw new NotFoundException(`Customer #${id} not found`);
+  //   }
+  //   return customer;
+  // }
+
+  async getOrderByCustomer(id: number) {
+    const customer = this.findOne(id);
+    return {
+      date: new Date(),
+      customer: customer,
+      products: await this.productsService.getAllProducts(),
+    };
+  }
 }

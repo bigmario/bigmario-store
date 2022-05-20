@@ -1,18 +1,18 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 import { Customer } from 'src/customers/entities/customer.entity';
 import { Product } from 'src/products/entities/product.entity';
 
-@Schema()
-export class Order extends Document {
-  @Prop()
+@Entity({ name: 'orders' })
+export class Order {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
   date: Date;
 
-  @Prop({ type: Types.ObjectId, ref: Customer.name, required: true })
-  customer: Customer | Types.ObjectId;
+  @Column({ type: 'character varying', length: 255 })
+  customer: Customer;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: Product.name }] })
-  products: Types.Array<Product>;
+  @Column({ type: 'character varying', length: 255 })
+  products: Product;
 }
-
-export const OrderSchema = SchemaFactory.createForClass(Order);

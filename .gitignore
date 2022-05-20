@@ -5,6 +5,9 @@
 #MONGO Database
 /mongo_data
 
+#Postgres Database
+/postgres_data
+
 # Logs
 logs
 *.log

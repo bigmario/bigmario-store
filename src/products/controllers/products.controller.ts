@@ -29,31 +29,35 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'List of Products' })
-  getAllProducts(@Query() params: FilterProductsDto) {
-    return this.pService.getAllProducts(params);
+  getAllProducts(
+    @Query('limit') limit = 100,
+    @Query('offset') offset = 0,
+    @Query('brand') brand: string,
+  ) {
+    return this.pService.getAllProducts();
   }
 
   @Get(':productId')
   @HttpCode(HttpStatus.ACCEPTED)
-  getOneProduct(@Param('productId', MongoIdPipe) productId: string) {
+  getOneProduct(@Param('productId') productId: number) {
     return this.pService.getOneProduct(productId);
   }
 
-  @Post()
-  create(@Body() payload: CreateProductDto) {
-    return this.pService.createProduct(payload);
-  }
+  // @Post()
+  // create(@Body() payload: CreateProductDto) {
+  //   return this.pService.createProduct(payload);
+  // }
 
-  @Put(':productId')
-  update(
-    @Param('productId', MongoIdPipe) productId: string,
-    @Body() payload: UpdateProductDto,
-  ) {
-    return this.pService.updateProduct(productId, payload);
-  }
+  // @Put(':productId')
+  // update(
+  //   @Param('productId', MongoIdPipe) productId: string,
+  //   @Body() payload: UpdateProductDto,
+  // ) {
+  //   return this.pService.updateProduct(productId, payload);
+  // }
 
-  @Delete(':productId')
-  delete(@Param('productId', MongoIdPipe) productId: string) {
-    return this.pService.deleteProduct(productId);
-  }
+  // @Delete(':productId')
+  // delete(@Param('productId', MongoIdPipe) productId: string) {
+  //   return this.pService.deleteProduct(productId);
+  // }
 }
