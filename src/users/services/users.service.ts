@@ -20,7 +20,7 @@ export class UsersService {
     return this.userModel.find();
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     const user = this.userModel.findById(id).exec();
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
@@ -28,18 +28,8 @@ export class UsersService {
     return user;
   }
 
-  async findByEmail(email: string) {
-    const user = await this.userModel
-      .findOne({
-        email: email,
-      })
-      .exec();
-
-    if (!user) {
-      throw new NotFoundException(`User #${email} not found`);
-    }
-
-    return user;
+  findByEmail(email: string) {
+    return this.userModel.findOne({ email }).exec();
   }
 
   async create(data: CreateUserDto) {
