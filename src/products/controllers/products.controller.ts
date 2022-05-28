@@ -9,6 +9,7 @@ import {
   HttpStatus,
   HttpCode,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
@@ -21,8 +22,10 @@ import {
 } from 'src/products/dto/products.dto';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 
 @ApiTags('Products')
+@UseGuards(ApiKeyGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly pService: ProductsService) {}

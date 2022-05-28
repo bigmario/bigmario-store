@@ -6,6 +6,7 @@ import {
   Body,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 
 import { CategoriesService } from 'src/products/services/categories.service';
@@ -15,8 +16,10 @@ import {
 } from 'src/products/dto/category.dto';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 
 @ApiTags('Categories')
+@UseGuards(ApiKeyGuard)
 @Controller('categories')
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}

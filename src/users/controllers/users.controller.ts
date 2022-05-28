@@ -6,6 +6,7 @@ import {
   Body,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 
 import { UsersService } from 'src/users/services/users.service';
@@ -13,8 +14,10 @@ import { CreateUserDto, UpdateUserDto } from 'src/users/dto/user.dto';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
 import { ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 
 @ApiTags('Users')
+@UseGuards(ApiKeyGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}

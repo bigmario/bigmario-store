@@ -16,6 +16,10 @@ export class AppService {
     return `Hello Mario! with token: ${apiKey} and DB: ${dbName}`;
   }
 
+  nuevoEndpoint(): string {
+    return `soy nuevo`;
+  }
+
   async getTasks() {
     const taskCollection = this.database.collection('tasks');
     const tasks = await taskCollection.find().toArray();

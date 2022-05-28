@@ -6,13 +6,16 @@ import {
   Param,
   Put,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateBrandDto, UpdateBrandDto } from 'src/products/dto/brand.dto';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { BrandsService } from 'src/products/services/brands.service';
 import { ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 
 @ApiTags('Brands')
+@UseGuards(ApiKeyGuard)
 @Controller('brands')
 export class BrandsController {
   constructor(private brandsService: BrandsService) {}

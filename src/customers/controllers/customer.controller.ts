@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 
 import {
@@ -15,8 +16,10 @@ import {
 import { CustomersService } from '../services/customer.service';
 
 import { ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 
 @ApiTags('Customers')
+@UseGuards(ApiKeyGuard)
 @Controller('customers')
 export class CustomersController {
   constructor(private customersService: CustomersService) {}

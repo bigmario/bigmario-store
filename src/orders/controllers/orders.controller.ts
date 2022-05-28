@@ -7,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { OrdersService } from '../services/orders.service';
 import {
@@ -17,8 +18,10 @@ import {
 
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 
 @ApiTags('Orders')
+@UseGuards(ApiKeyGuard)
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
