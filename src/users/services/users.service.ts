@@ -17,11 +17,11 @@ export class UsersService {
   ) {}
 
   findAll() {
-    return this.userModel.find();
+    return this.userModel.find({}, { password: 0 });
   }
 
   async findOne(id: string) {
-    const user = this.userModel.findById(id).exec();
+    const user = this.userModel.findById(id, { password: 0 }).exec();
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
