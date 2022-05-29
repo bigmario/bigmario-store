@@ -17,6 +17,7 @@ import { CustomersService } from '../services/customer.service';
 
 import { ApiTags } from '@nestjs/swagger';
 import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Customers')
 @UseGuards(ApiKeyGuard)
@@ -24,11 +25,13 @@ import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 export class CustomersController {
   constructor(private customersService: CustomersService) {}
 
+  @Public()
   @Get()
   findAll() {
     return this.customersService.findAll();
   }
 
+  @Public()
   @Get(':id')
   get(@Param('id') id: string) {
     return this.customersService.findOne(id);

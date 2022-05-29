@@ -17,6 +17,7 @@ import {
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Categories')
 @UseGuards(ApiKeyGuard)
@@ -24,11 +25,13 @@ import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
 
+  @Public()
   @Get()
   findAll() {
     return this.categoriesService.findAll();
   }
 
+  @Public()
   @Get(':id')
   get(@Param('id', MongoIdPipe) id: string) {
     return this.categoriesService.findOne(id);

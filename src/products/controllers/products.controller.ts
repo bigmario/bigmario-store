@@ -23,6 +23,7 @@ import {
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Products')
 @UseGuards(ApiKeyGuard)
@@ -30,12 +31,14 @@ import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 export class ProductsController {
   constructor(private readonly pService: ProductsService) {}
 
+  @Public()
   @Get()
   @ApiOperation({ summary: 'List of Products' })
   getAllProducts(@Query() params: FilterProductsDto) {
     return this.pService.getAllProducts(params);
   }
 
+  @Public()
   @Get(':productId')
   @HttpCode(HttpStatus.ACCEPTED)
   getOneProduct(@Param('productId', MongoIdPipe) productId: string) {

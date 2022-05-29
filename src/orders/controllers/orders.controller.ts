@@ -19,6 +19,7 @@ import {
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Orders')
 @UseGuards(ApiKeyGuard)
@@ -26,11 +27,13 @@ import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
+  @Public()
   @Get()
   findAll() {
     return this.ordersService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id', MongoIdPipe) id: string) {
     return this.ordersService.findOne(id);

@@ -13,6 +13,7 @@ import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { BrandsService } from 'src/products/services/brands.service';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Brands')
 @UseGuards(ApiKeyGuard)
@@ -20,11 +21,13 @@ import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 export class BrandsController {
   constructor(private brandsService: BrandsService) {}
 
+  @Public()
   @Get()
   getAllBrands() {
     return this.brandsService.getAllBrands();
   }
 
+  @Public()
   @Get(':id')
   getOneBrand(@Param('id', MongoIdPipe) id: string) {
     return this.brandsService.getOneBrand(id);
