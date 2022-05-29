@@ -22,11 +22,11 @@ import {
 } from 'src/products/dto/products.dto';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('Products')
-@UseGuards(ApiKeyGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly pService: ProductsService) {}

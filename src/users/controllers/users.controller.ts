@@ -14,11 +14,11 @@ import { CreateUserDto, UpdateUserDto } from 'src/users/dto/user.dto';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
 import { ApiTags } from '@nestjs/swagger';
-import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('Users')
-@UseGuards(ApiKeyGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}

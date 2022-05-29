@@ -12,11 +12,11 @@ import { CreateBrandDto, UpdateBrandDto } from 'src/products/dto/brand.dto';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { BrandsService } from 'src/products/services/brands.service';
 import { ApiTags } from '@nestjs/swagger';
-import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('Brands')
-@UseGuards(ApiKeyGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('brands')
 export class BrandsController {
   constructor(private brandsService: BrandsService) {}

@@ -16,11 +16,11 @@ import {
 import { CustomersService } from '../services/customer.service';
 
 import { ApiTags } from '@nestjs/swagger';
-import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('Customers')
-@UseGuards(ApiKeyGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('customers')
 export class CustomersController {
   constructor(private customersService: CustomersService) {}
