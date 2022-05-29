@@ -3,10 +3,8 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 import config from 'src/config';
@@ -25,14 +23,5 @@ export class ApiKeyGuard implements CanActivate {
     if (isPublic) {
       return true;
     }
-
-    const request = context.switchToHttp().getRequest<Request>();
-    const authHeader = request.header('Auth');
-    const isAuth = authHeader === this.configService.apiKey;
-
-    if (!isAuth) {
-      throw new UnauthorizedException('Not Allowed');
-    }
-    return isAuth;
   }
 }
