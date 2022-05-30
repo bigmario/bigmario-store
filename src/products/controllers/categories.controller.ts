@@ -18,9 +18,12 @@ import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/roles.model';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @ApiTags('Categories')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('categories')
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
@@ -37,11 +40,13 @@ export class CategoriesController {
     return this.categoriesService.findOne(id);
   }
 
+  @Roles(Role.ADMIN)
   @Post()
   create(@Body() payload: CreateCategoryDto) {
     return this.categoriesService.create(payload);
   }
 
+  @Roles(Role.ADMIN)
   @Put(':id')
   update(
     @Param('id', MongoIdPipe) id: string,
@@ -50,6 +55,7 @@ export class CategoriesController {
     return this.categoriesService.update(id, payload);
   }
 
+  @Roles(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id', MongoIdPipe) id: string) {
     return this.categoriesService.remove(id);

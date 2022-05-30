@@ -16,20 +16,23 @@ import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/roles.model';
 
 @ApiTags('Users')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Public()
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Public()
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Get(':id')
   get(@Param('id', MongoIdPipe) id: string) {
     return this.usersService.findOne(id);
@@ -40,16 +43,19 @@ export class UsersController {
     return this.usersService.findByEmail(email);
   }
 
+  @Public()
   @Post()
   create(@Body() payload: CreateUserDto) {
     return this.usersService.create(payload);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Put(':id')
   update(@Param('id', MongoIdPipe) id: string, @Body() payload: UpdateUserDto) {
     return this.usersService.update(id, payload);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Delete(':id')
   remove(@Param('id', MongoIdPipe) id: string) {
     return this.usersService.remove(id);

@@ -20,9 +20,12 @@ import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Role } from 'src/auth/models/roles.model';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Orders')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
@@ -39,11 +42,13 @@ export class OrdersController {
     return this.ordersService.findOne(id);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.ordersService.create(createOrderDto);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Patch(':id')
   update(
     @Param('id', MongoIdPipe) id: string,
@@ -52,11 +57,13 @@ export class OrdersController {
     return this.ordersService.update(id, updateOrderDto);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Delete(':id')
   remove(@Param('id', MongoIdPipe) id: string) {
     return this.ordersService.remove(id);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Delete(':id/product/:productId')
   removeProduct(
     @Param('id', MongoIdPipe) id: string,
@@ -65,6 +72,7 @@ export class OrdersController {
     return this.ordersService.removeProduct(id, productId);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Put(':id/products')
   updateProducts(
     @Param('id', MongoIdPipe) id: string,

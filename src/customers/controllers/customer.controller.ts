@@ -18,9 +18,12 @@ import { CustomersService } from '../services/customer.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/roles.model';
 
 @ApiTags('Customers')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('customers')
 export class CustomersController {
   constructor(private customersService: CustomersService) {}
@@ -42,16 +45,19 @@ export class CustomersController {
   //   return this.customersService.getOrderByCustomer(id);
   // }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Post()
   create(@Body() payload: CreateCustomerDto) {
     return this.customersService.create(payload);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateCustomerDto) {
     return this.customersService.update(id, payload);
   }
 
+  @Roles(Role.ADMIN, Role.CUSTOMER)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.customersService.remove(id);

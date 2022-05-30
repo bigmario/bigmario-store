@@ -14,9 +14,12 @@ import { BrandsService } from 'src/products/services/brands.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Role } from 'src/auth/models/roles.model';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('Brands')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('brands')
 export class BrandsController {
   constructor(private brandsService: BrandsService) {}
@@ -33,11 +36,13 @@ export class BrandsController {
     return this.brandsService.getOneBrand(id);
   }
 
+  @Roles(Role.ADMIN)
   @Post()
   createBrand(@Body() payload: CreateBrandDto) {
     return this.brandsService.createBrand(payload);
   }
 
+  @Roles(Role.ADMIN)
   @Put(':id')
   updateBrand(
     @Param('id', MongoIdPipe) id: string,
@@ -46,6 +51,7 @@ export class BrandsController {
     return this.brandsService.updateBrand(id, payload);
   }
 
+  @Roles(Role.ADMIN)
   @Delete(':id')
   removeBrand(@Param('id', MongoIdPipe) id: string) {
     return this.brandsService.removeBrand(id);

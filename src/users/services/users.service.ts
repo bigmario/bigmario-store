@@ -41,23 +41,25 @@ export class UsersService {
     return rta;
   }
 
-  update(id: string, changes: UpdateUserDto) {
-    const user = this.userModel.findByIdAndUpdate(
-      id,
+  async update(id: string, changes: UpdateUserDto) {
+    const user = await this.userModel.findOneAndUpdate(
+      { _id: id },
       { $set: changes },
       { new: true },
     );
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
-    return user;
+    const { password, ...rta } = user.toJSON();
+    return rta;
   }
 
-  remove(id: string) {
-    const user = this.userModel.findByIdAndDelete(id);
+  async remove(id: string) {
+    const user = await this.userModel.findByIdAndDelete(id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
-    return user;
+    const { password, ...rta } = user.toJSON();
+    return rta;
   }
 }

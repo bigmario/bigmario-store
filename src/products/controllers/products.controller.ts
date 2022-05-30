@@ -24,9 +24,12 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/roles.model';
 
 @ApiTags('Products')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly pService: ProductsService) {}
@@ -45,11 +48,13 @@ export class ProductsController {
     return this.pService.getOneProduct(productId);
   }
 
+  @Roles(Role.ADMIN)
   @Post()
   create(@Body() payload: CreateProductDto) {
     return this.pService.createProduct(payload);
   }
 
+  @Roles(Role.ADMIN)
   @Put(':productId')
   update(
     @Param('productId', MongoIdPipe) productId: string,
@@ -58,6 +63,7 @@ export class ProductsController {
     return this.pService.updateProduct(productId, payload);
   }
 
+  @Roles(Role.ADMIN)
   @Delete(':productId')
   delete(@Param('productId', MongoIdPipe) productId: string) {
     return this.pService.deleteProduct(productId);
