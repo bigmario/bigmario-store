@@ -43,7 +43,7 @@ export class UsersController {
     return this.usersService.findByEmail(email);
   }
 
-  @Public()
+  @Roles(Role.ADMIN)
   @Post()
   create(@Body() payload: CreateUserDto) {
     return this.usersService.create(payload);
