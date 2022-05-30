@@ -5,9 +5,9 @@ export class Brand {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'character varying', unique: true })
+  @Column({ type: 'varchar', unique: true })
   name: string;
 
-  @Column({ type: 'character varying' })
+  @Column({ type: 'varchar' })
   image: string;
 }

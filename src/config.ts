@@ -15,11 +15,18 @@ export default registerAs('config', () => {
       connection: process.env.MONGO_CONNECTION,
     },
     postgres: {
-      dbName: process.env.DATABASE_NAME,
-      port: parseInt(process.env.DATABASE_PORT, 10),
-      host: process.env.DATABASE_HOST,
-      user: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASS,
+      dbName: process.env.POSTGRES_NAME,
+      port: parseInt(process.env.POSTGRES_PORT, 10),
+      host: process.env.POSTGRES_HOST,
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASS,
+    },
+    mysql: {
+      dbName: process.env.MYSQL_DATABASE,
+      port: parseInt(process.env.MYSQL_PORT, 10),
+      host: process.env.MYSQL_HOST,
+      user: process.env.MYSQL_USER,
+      password: process.env.MYSQL_ROOT_PASSWORD,
     },
     apiKey: process.env.API_KEY,
   };

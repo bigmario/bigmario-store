@@ -9,8 +9,8 @@ services:
     ports:
       - 27018:27017
     volumes:
-      - db:/data/db
+      - db-mongo:/data/db
 
 volumes:
-  db:
+  db-mongo:
     driver: local

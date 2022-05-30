@@ -10,9 +10,9 @@ export class Order {
   @Column()
   date: Date;
 
-  @Column({ type: 'character varying', length: 255 })
+  @Column({ type: 'varchar', length: 255 })
   customer: Customer;
 
-  @Column({ type: 'character varying', length: 255 })
+  @Column({ type: 'varchar', length: 255 })
   products: Product;
 }

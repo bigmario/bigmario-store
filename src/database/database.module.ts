@@ -20,7 +20,7 @@ const API_KEY_PROD = 'PROD_123456';
           database: dbName,
           password: password,
           port: port,
-          synchronize: true,
+          synchronize: false,
           autoLoadEntities: true,
         };
       },

@@ -5,12 +5,12 @@ export class Customer {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'character varying', length: 255 })
+  @Column({ type: 'varchar', length: 255 })
   name: string;
 
-  @Column({ type: 'character varying', length: 255 })
+  @Column({ type: 'varchar', length: 255 })
   lastName: string;
 
-  @Column({ type: 'character varying', length: 255 })
+  @Column({ type: 'varchar', length: 255 })
   phone: string;
 }
