@@ -61,4 +61,14 @@ export class OrdersService {
     productsIds.forEach((idProduct) => order.products.push(idProduct));
     return order.save();
   }
+
+  async getOrderByCustomer(id: string) {
+    const order = this.orderModel
+      .find({ customer: id })
+      .populate('customer', ['_id', 'email'])
+      .populate('products')
+      .exec();
+
+    return order;
+  }
 }

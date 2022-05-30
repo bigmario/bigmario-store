@@ -18,7 +18,6 @@ import {
 
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Role } from 'src/auth/models/roles.model';
@@ -30,13 +29,13 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Public()
+  @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.ordersService.findAll();
   }
 
-  @Public()
+  @Roles(Role.ADMIN)
   @Get(':id')
   findOne(@Param('id', MongoIdPipe) id: string) {
     return this.ordersService.findOne(id);

@@ -16,7 +16,6 @@ import {
 import { CustomersService } from '../services/customer.service';
 
 import { ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
@@ -28,22 +27,17 @@ import { Role } from 'src/auth/models/roles.model';
 export class CustomersController {
   constructor(private customersService: CustomersService) {}
 
-  @Public()
+  @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.customersService.findAll();
   }
 
-  @Public()
+  @Roles(Role.ADMIN)
   @Get(':id')
   get(@Param('id') id: string) {
     return this.customersService.findOne(id);
   }
-
-  // @Get(':id/orders')
-  // getOrders(@Param('id', ParseIntPipe) id: number) {
-  //   return this.customersService.getOrderByCustomer(id);
-  // }
 
   @Roles(Role.ADMIN, Role.CUSTOMER)
   @Post()
@@ -51,13 +45,13 @@ export class CustomersController {
     return this.customersService.create(payload);
   }
 
-  @Roles(Role.ADMIN, Role.CUSTOMER)
+  @Roles(Role.ADMIN)
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateCustomerDto) {
     return this.customersService.update(id, payload);
   }
 
-  @Roles(Role.ADMIN, Role.CUSTOMER)
+  @Roles(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.customersService.remove(id);

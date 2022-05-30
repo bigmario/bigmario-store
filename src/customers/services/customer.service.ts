@@ -52,13 +52,4 @@ export class CustomersService {
     }
     return customer;
   }
-
-  // async getOrderByCustomer(id: number) {
-  //   const customer = this.findOne(id);
-  //   return {
-  //     date: new Date(),
-  //     customer: customer,
-  //     products: await this.productsService.getAllProducts(),
-  //   };
-  // }
 }
