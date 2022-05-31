@@ -30,9 +30,9 @@ import config from 'src/config';
     {
       provide: 'MONGO',
       useFactory: async (configService: ConfigType<typeof config>) => {
-        const { connection, user, password, host, port, dbName } =
+        const { connection, user, password, host, dbName } =
           configService.mongo;
-        const uri = `${connection}://${user}:${password}@${host}:${port}`;
+        const uri = `${connection}://${user}:${password}@${host}`;
 
         const client = new MongoClient(uri);
         await client.connect();
