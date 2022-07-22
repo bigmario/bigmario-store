@@ -13,7 +13,6 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
-    private customersService: CustomersService,
     private configService: ConfigService,
   ) {}
 
@@ -21,8 +20,12 @@ export class UsersService {
     return this.userRepo.find();
   }
 
-  findOne(id: string) {
-    const user = this.userRepo.findOne(id);
+  findOne(id: number) {
+    const user = this.userRepo.findOne({
+      where: {
+        id: id,
+      },
+    });
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
@@ -31,11 +34,7 @@ export class UsersService {
 
   async create(data: CreateUserDto) {
     const newUser = this.userRepo.create(data);
-    if (data.customerId) {
-      const customer = await this.customersService.findOne(data.customerId);
-      newUser.customer = customer;
-    }
-    return newUser.save();
+    return this.userRepo.save(newUser);
   }
 
   // update(id: string, changes: UpdateUserDto) {

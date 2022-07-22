@@ -12,8 +12,12 @@ export class OrdersService {
     return this.orderRepo.find();
   }
 
-  findOne(id: string) {
-    const order = this.orderRepo.findOne(id);
+  findOne(id: number) {
+    const order = this.orderRepo.findOne({
+      where: {
+        id: id,
+      },
+    });
     if (!order) {
       throw new NotFoundException(`Order ID #${id} not found`);
     }

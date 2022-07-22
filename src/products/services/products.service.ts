@@ -15,7 +15,11 @@ export class ProductsService {
   }
 
   async getOneProduct(productId: number) {
-    const product = await this.productRepo.findOne(productId);
+    const product = await this.productRepo.findOne({
+      where: {
+        id: productId,
+      },
+    });
 
     if (!product) {
       throw new NotFoundException(`Product with ID# ${productId} not found`);
@@ -36,7 +40,11 @@ export class ProductsService {
   }
 
   async updateProduct(id: number, payload: UpdateProductDto) {
-    const product = await this.productRepo.findOne(id);
+    const product = await this.productRepo.findOne({
+      where: {
+        id: id,
+      },
+    });
 
     if (!product) {
       throw new NotFoundException(`Product with ID# ${id} not found`);

@@ -19,7 +19,11 @@ export class CustomersService {
   }
 
   findOne(id: number) {
-    const customer = this.customerRepo.findOne(id);
+    const customer = this.customerRepo.findOne({
+      where: {
+        id: id,
+      },
+    });
     if (!customer) {
       throw new NotFoundException(`Customer #${id} not found`);
     }

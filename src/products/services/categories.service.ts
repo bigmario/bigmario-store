@@ -13,8 +13,12 @@ export class CategoriesService {
     return this.categoryRepo.find();
   }
 
-  findOne(id: string) {
-    const category = this.categoryRepo.findOne(id);
+  findOne(id: number) {
+    const category = this.categoryRepo.findOne({
+      where: {
+        id: id,
+      },
+    });
     if (!category) {
       throw new NotFoundException(`Category #${id} not found`);
     }

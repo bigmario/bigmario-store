@@ -6,6 +6,7 @@ import {
   Body,
   Put,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 import { CategoriesService } from 'src/products/services/categories.service';
@@ -23,8 +24,8 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  get(@Param('id', MongoIdPipe) id: string) {
-    return this.categoriesService.findOne(id);
+  get(@Param('id', ParseIntPipe) id: number) {
+    return this.categoriesService.findOne(+id);
   }
 
   // @Post()

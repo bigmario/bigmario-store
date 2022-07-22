@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Post,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { BrandsService } from 'src/products/services/brands.service';
@@ -22,7 +23,7 @@ export class BrandsController {
   }
 
   @Get(':id')
-  getOneBrand(@Param('id', MongoIdPipe) id: string) {
+  getOneBrand(@Param('id', ParseIntPipe) id: number) {
     return this.brandsService.getOneBrand(id);
   }
 

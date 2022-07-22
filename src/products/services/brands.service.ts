@@ -10,8 +10,12 @@ export class BrandsService {
     return this.brandRepo.find();
   }
 
-  getOneBrand(id: string) {
-    const brand = this.brandRepo.findOne(id);
+  getOneBrand(id: number) {
+    const brand = this.brandRepo.findOne({
+      where: {
+        id: id,
+      },
+    });
     if (!brand) {
       throw new NotFoundException(`Brand #${id} not found!`);
     }
