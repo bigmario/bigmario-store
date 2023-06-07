@@ -16,15 +16,4 @@ export class AppController {
   Hello(): string {
     return this.appService.Hello();
   }
-
-  @Public()
-  @Get('nuevo')
-  newEndpoint(): string {
-    return this.appService.nuevoEndpoint();
-  }
-
-  @Get('tasks')
-  getTasks() {
-    return this.appService.getTasks();
-  }
 }
