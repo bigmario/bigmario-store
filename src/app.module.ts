@@ -31,6 +31,7 @@ import config from './config';
         DATABASE_NAME: Joi.string().required(),
         DATABASE_PORT: Joi.number().required(),
       }),
+      expandVariables: true,
     }),
     AuthModule,
   ],

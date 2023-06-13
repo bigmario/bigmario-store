@@ -13,12 +13,13 @@ import { UsersService } from 'src/users/services/users.service';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dto/user.dto';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/roles.model';
 
+@ApiBearerAuth()
 @ApiTags('Users')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
